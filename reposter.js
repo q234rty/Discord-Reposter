@@ -6,7 +6,7 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-client.login("<SECRET_BOT_TOKEN>").catch(console.error);
+client.login(process.env.BOT_TOKEN).catch(console.error);
 
 client.on("ready", function() {
 	client.user.setActivity(client.guilds.size + " server" + (client.guilds.size === 1 ? "" : "s"), { type: "WATCHING" }).catch(console.error);
@@ -215,7 +215,7 @@ const systemMessages = {
 
 async function sendMessage(message, channel, webhook, author) {
 	if (inactive(channel.id, message.channel.id)) return;
-	if (message.type !== "DEFAULT") {
+	/*if (message.type !== "DEFAULT") {
 		await channel.send("**" + replaceAll(channel, niceName(channel, message.channel, message.author)) + systemMessages[message.type] + "**").catch(console.error);
 	} else if (message.author.id !== author) {
 		if (webhook) {
@@ -223,9 +223,9 @@ async function sendMessage(message, channel, webhook, author) {
 		} else {
 			await channel.send("**" + replaceAll(channel, niceName(channel, message.channel, message.author)) + "**").catch(console.error);
 		}
-	}
+	}*/
 	if (message.content) {
-		await send(webhook ? webhook : channel, replaceAll(channel, message.content), message.reactions);
+		await send(webhook ? webhook : channel, replaceAll(channel, message.content), {});
 	}
 	if (message.attachments.size) {
 		for (const attachment of message.attachments.values()) {
